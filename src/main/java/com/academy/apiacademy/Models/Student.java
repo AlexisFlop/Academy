@@ -20,7 +20,7 @@ public class Student {
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idUser;
+    private Integer idStudent;
 
     @Column(nullable = false)
     private String firstName;

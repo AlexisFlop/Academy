@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class StudentDTO {
-    private Integer idUser;
+    private Integer idStudent;
 
     @NotBlank
     @NotNull
