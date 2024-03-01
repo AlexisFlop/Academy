@@ -43,6 +43,11 @@ public class StudentController {
         Student object = service.getById(id);
         return new ResponseEntity<>(new GenericResponse<>(200, "Succes", Arrays.asList(convertToDTO(object))), HttpStatus.OK);
     }
+    @GetMapping("/orderDescByAge")
+    public ResponseEntity<List<StudentDTO>> orderStudentsDescByAge() throws Exception {
+        List<StudentDTO> list = service.orderStudentsDescByAge().stream().map(this::convertToDTO).toList();
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<GenericResponse<StudentDTO>> updateStudent(@PathVariable("id") Integer id, @Valid @RequestBody StudentDTO dto) throws Exception{

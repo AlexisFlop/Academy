@@ -1,5 +1,9 @@
 package com.academy.apiacademy.Services.service_implementations;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import com.academy.apiacademy.Models.Student;
@@ -18,5 +22,13 @@ public class StudentImplementation extends CRUDimplementation<Student, Integer> 
     @Override
     protected iGenericRepository<Student, Integer> getRepository() {
         return repository;
+    }
+    @Override
+    public List<Student> orderStudentsDescByAge() {
+        List<Student> students = repository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Student::getAge).reversed())
+                .collect(Collectors.toList());
+        return students;
     }
 }
