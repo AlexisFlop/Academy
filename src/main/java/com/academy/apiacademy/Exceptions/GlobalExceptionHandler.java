@@ -1,7 +1,7 @@
 package com.academy.apiacademy.Exceptions;
 
 import java.net.URI;
-
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
 import org.springframework.web.bind.*;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +31,19 @@ public class GlobalExceptionHandler {
 
         return problemDetdail;
     }
+    
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ProblemDetail handleDataIntegrityViolationException(DataIntegrityViolationException exception, WebRequest request) {
+        ProblemDetail problemDetdail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, exception.getMessage());
+        problemDetdail.setTitle("Data integrity violation exception");
+        problemDetdail.setType(URI.create(request.getContextPath()));
+        problemDetdail.setProperty("code", "400");
+        problemDetdail.setProperty("message", "BAD-REQUEST");
 
-    /*@ExceptionHandler(Exception.class)
+        return problemDetdail;
+    }
+
+    @ExceptionHandler(Exception.class)
     public ProblemDetail handleException(Exception exception, WebRequest request) {
         ProblemDetail problemDetdail = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
         problemDetdail.setTitle("Internal server error");
@@ -41,5 +52,5 @@ public class GlobalExceptionHandler {
         problemDetdail.setProperty("message", "INTERNAL-SERVER-ERROR");
 
         return problemDetdail;
-    }   */
+    }
 }
