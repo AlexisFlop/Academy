@@ -2,7 +2,7 @@ package com.academy.apiacademy.Controllers;
 
 import java.util.Arrays;
 import java.util.List;
-
+import java.util.Map;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.academy.apiacademy.DTO.GenericResponse;
 import com.academy.apiacademy.DTO.TuitionDTO;
+import com.academy.apiacademy.Models.Student;
 import com.academy.apiacademy.Models.Tuition;
 import com.academy.apiacademy.Services.iTuitionService;
 
@@ -54,6 +55,12 @@ public class TuitionController {
     public ResponseEntity<GenericResponse<TuitionDTO>> deleteTuition(@PathVariable("id") Integer id) throws Exception{
         service.delete(id);
         return new ResponseEntity<>(new GenericResponse<>(200, "Succes", null), HttpStatus.OK);
+    }
+
+    @GetMapping("/studentsBySession")
+    public ResponseEntity<Map<String, List<Student>>> getStudentsBySession() throws Exception {
+        Map<String, List<Student>> studentsBySession = service.getStudentsBySession();
+        return new ResponseEntity<>(studentsBySession, HttpStatus.OK);
     }
 
     private Tuition convertToEntity(TuitionDTO tuitionDTO) {
