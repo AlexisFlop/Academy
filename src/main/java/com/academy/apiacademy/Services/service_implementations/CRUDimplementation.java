@@ -1,5 +1,6 @@
 package com.academy.apiacademy.Services.service_implementations;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import com.academy.apiacademy.Exceptions.ModelNotFoundException;
@@ -17,6 +18,14 @@ public abstract class CRUDimplementation<T, ID> implements iCRUD<T, ID>{
 
     @Override
     public T update(T t, ID id) throws Exception {
+        Class<?> tClass = t.getClass();
+        String className = tClass.getSimpleName();
+        String methodNamme = "setId" + className;
+
+        Method setIdMethod = tClass.getMethod(methodNamme, id.getClass());
+
+        setIdMethod.invoke(t, id);
+        
         getRepository().findById(id).orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND:" + id));
         return getRepository().save(t);
     }
